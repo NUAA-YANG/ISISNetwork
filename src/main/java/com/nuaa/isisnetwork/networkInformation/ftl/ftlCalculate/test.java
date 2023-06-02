@@ -1,5 +1,6 @@
 package com.nuaa.isisnetwork.networkInformation.ftl.ftlCalculate;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -13,5 +14,10 @@ public class test {
         System.out.println(Arrays.toString(s));
 
         System.out.println("  interface eth1".contains("interface"));
+
+        File[] files = new File("src/main/java/com/nuaa/isisnetwork/profile").listFiles();
+        for (File f:files){
+            System.out.println(f.getName());
+        }
     }
 }

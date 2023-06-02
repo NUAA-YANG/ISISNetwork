@@ -44,7 +44,6 @@ public class TextMatch {
 
     public Map<String,Object> MatchFtl(File file) throws IOException {
 
-        NetmaskUtil netmaskUtil = new NetmaskUtil();
 
         //存储最后的结果
         Map<String, Object> dataMap = new HashMap<>();
@@ -57,9 +56,7 @@ public class TextMatch {
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         String line = null;
 
-        //存储isis协议网卡的接口
-        List<InterfaceFtl> interfaceFtlList = new ArrayList<>();
-        //存储mysql网卡的接口
+        //存储网卡的接口
         List<NetInterfaces> netInterfacesList = new ArrayList<>();
         //isis编号
         String flag = null;
@@ -107,10 +104,7 @@ public class TextMatch {
                     String name = keyWord.split("\\s+")[1];//获得接口名称
                     String ipAddress = matcher.group(1);//获得ip地址
                     Integer subnetMask = netmaskUtil.calculateNetmask(matcher.group(2));//获得子网掩码
-                    //=============这里为了添加xml描述文件的接口信息============
-                    InterfaceFtl interfaceFtl = new InterfaceFtl(name, ipAddress,subnetMask);
-                    interfaceFtlList.add(interfaceFtl);
-                    //=============这里为了添加mysql接口信息============
+                    //=============添加网卡接口信息============
                     NetInterfaces netInterfaces = new NetInterfaces(0, name, ipAddress, subnetMask, lxdName);
                     netInterfacesList.add(netInterfaces);
                 }
@@ -172,11 +166,7 @@ public class TextMatch {
             dataMap.put("ethName",ethName);
             dataMap.put("type",type);
         }
-        //添加isis协议网卡接口
-        if (interfaceFtlList.size()>0){
-            dataMap.put("interfaceFtlList",interfaceFtlList);
-        }
-        //添加mysql网卡接口
+        //添加网卡接口
         if (netInterfacesList.size()>0){
             dataMap.put("netInterfacesList",netInterfacesList);
         }

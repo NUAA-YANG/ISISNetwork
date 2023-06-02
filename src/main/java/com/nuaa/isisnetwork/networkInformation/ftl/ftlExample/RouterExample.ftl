@@ -1,13 +1,14 @@
 <Information>
     <type>router</type><!--描述为路由器router-->
+    <manufacture>${manufacture}</manufacture><!--厂商-->
     <lxdName>${lxdName}</lxdName>
-    <#if interfaceFtlList??>
+    <#if netInterfacesList?? && (netInterfacesList?size>0)>
     <interfaces><!--描述接口信息-->
-        <#list interfaceFtlList as interfaceFtl>
+        <#list netInterfacesList as netInterfaces>
         <interface><!--描述详细接口信息-->
-            <name>${interfaceFtl.name}</name>
-            <ipAddress>${interfaceFtl.ipAddress}</ipAddress>
-            <subnetMask>${interfaceFtl.subnetMask}</subnetMask>
+            <name>${netInterfaces.name}</name>
+            <ipAddress>${netInterfaces.ipAddress}</ipAddress>
+            <subnetMask>${netInterfaces.subnetMask}</subnetMask>
         </interface>
         </#list>
     </interfaces>
