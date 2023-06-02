@@ -26,7 +26,7 @@ public class ExecLinuxCommands {
 
     /**
      * @description  执行Linux命令
-     * @date 2023/5/4 14:58
+     * @date 2023/6/1 14:58
      * @params [session传递连接对话, commands传递命令集合]
      * @returns List<String> 返回命令执行结果
      */

@@ -1,0 +1,457 @@
+﻿display current-configuration
+#
+ version 7.1.075, Release 8151P25
+#
+ irf link-detect-time 100
+#
+ sysname R02
+#
+ forward-path-detection enable
+#
+ telnet server enable
+#
+ service-mode high-speed slot 10
+ service-mode high-speed slot 11
+ service-mode high-speed slot 12
+ service-mode high-speed slot 13
+#
+isis 11
+ graceful-restart
+ is-level level-2
+ cost-style wide
+ flash-flood max-timer-interval 100 
+ timer spf 1 50 100
+ timer lsp-generation 5 20 50
+                is-name aaaaRR
+ network-entity 10.7105.1921.6801.5077.00
+ #
+ address-family ipv4 unicast
+  preference 20
+#
+ mpls lsr-id 10.10.15.77
+#
+ system-working-mode sdn-wan
+ undo password-recovery enable
+#
+vlan 1
+#
+mpls ldp
+ md5-authentication 10.10.0.1 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+#
+interface Pos1/2/1
+ shutdown
+#
+interface Pos1/2/2
+ shutdown
+#
+interface Pos1/2/3
+                shutdown
+#
+interface eth1
+ description TO_aaaa_M6000-8S
+ mtu 1600
+ ip address 192.168.15.70 255.255.255.252
+ isis enable 11
+ isis circuit-level level-1-2
+ isis cost 70000
+ isis authentication-mode md5 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ isis bfd enable 
+ isis primary-path-detect bfd ctrl
+ mpls enable
+ mpls ldp enable
+ mpls ldp timer keepalive-hold 30
+ mpls ldp timer keepalive-interval 10
+#
+interface eth2
+ description TO_aaaa_M6000-8S
+ mtu 1600
+ ip address 192.168.15.66 255.255.255.252
+ip address 192.168.15.150 255.255.255.252
+ isis enable 11
+ isis circuit-level level-1-2
+ isis cost 70000
+ isis authentication-mode md5 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ isis bfd enable 
+ isis primary-path-detect bfd ctrl
+ mpls enable
+ mpls ldp enable
+ mpls ldp timer keepalive-hold 30
+ mpls ldp timer keepalive-interval 10
+#
+interface eth3
+ description TO_aaaa_M6000-8S
+ mtu 1600
+ ip address 192.168.15.73 255.255.255.252
+ isis enable 11
+ isis circuit-level level-1-2
+ isis cost 70000
+ isis authentication-mode md5 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ isis bfd enable 
+ isis primary-path-detect bfd ctrl
+ mpls enable
+ mpls ldp enable
+ mpls ldp timer keepalive-hold 30
+ mpls ldp timer keepalive-interval 10
+ #
+interface eth4
+ description TO_aaaa_M6000-8S
+ mtu 1600
+ ip address 192.168.15.77 255.255.255.252
+ isis enable 11
+ isis circuit-level level-1-2
+ isis cost 70000
+ isis authentication-mode md5 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ isis bfd enable 
+ isis primary-path-detect bfd ctrl
+ mpls enable
+ mpls ldp enable
+ mpls ldp timer keepalive-hold 30
+ mpls ldp timer keepalive-interval 10
+#
+interface NULL0
+#
+interface LoopBack1
+ isis enable 11
+#
+interface LoopBack4
+ip address 10.1.1.1 255.255.255.255
+ isis enable 11
+#
+interface LoopBack5
+ip address 10.1.1.2 255.255.255.255
+ isis enable 11
+#
+               interface M-GigabitEthernet0/0/0
+#
+interface Ten-GigabitEthernet0/1/1
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/1/2
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/1/3
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/1/4
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/2/1
+ port link-mode route
+ shutdown
+#
+               interface Ten-GigabitEthernet0/2/2
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/2/3
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/2/4
+ port link-mode route
+ description DiQu-RT
+ shutdown
+#
+interface Ten-GigabitEthernet0/4/1
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/4/2
+ port link-mode route
+ shutdown
+#
+interface Ten-GigabitEthernet0/4/3
+ port link-mode route
+                shutdown
+#
+interface Ten-GigabitEthernet0/4/4
+ port link-mode route
+ shutdown
+#
+bgp 54
+ graceful-restart
+ router-id 10.10.0.52
+ compare-different-as-med
+ group RR2-11 internal
+ peer RR2-11 connect-interface LoopBack1
+ peer 10.11.0.1 group RR2-11
+ peer 10.11.0.1 description asd
+ peer 10.11.0.2 as-number 54
+ peer 10.11.0.2 description asdRR1
+ peer 10.11.0.2 connect-interface LoopBack1
+ peer 10.11.0.2 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.11.0.3 group RR2-11
+ peer 10.11.0.3 description asdd
+ peer 10.11.0.3 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.11.0.4 group RR2-11
+ peer 10.11.0.4 description asde
+                peer 10.11.0.4 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.11.0.52 as-number 54
+ peer 10.11.0.52 description asd-RR2
+ peer 10.11.0.52 connect-interface LoopBack1
+ peer 10.11.8.16 as-number 54
+ peer 10.11.8.16 connect-interface LoopBack1
+ peer 10.12.0.1 group RR2-11
+ peer 10.12.0.1 description asdd
+ peer 10.12.16.1 group RR2-11
+ peer 10.12.16.1 description asdww
+ peer 10.12.32.1 group RR2-11
+ peer 10.12.32.1 description asdee
+ peer 10.12.48.1 group RR2-11
+ peer 10.12.48.1 description asdww
+ peer 10.12.64.1 group RR2-11
+ peer 10.12.64.1 description asdrr
+ peer 10.12.80.1 group RR2-11
+ peer 10.12.80.1 description asdtt
+ peer 10.12.96.1 group RR2-11
+ peer 10.12.96.1 description asdyy
+ peer 10.12.112.1 group RR2-11
+ peer 10.12.112.1 description asduu
+ peer 10.12.128.1 group RR2-11
+                peer 10.12.128.1 description ͨasdii
+ peer 10.13.1.2 group RR2-11
+ peer 10.13.1.2 description asdoo
+ peer 10.14.0.1 group RR2-11
+ peer 10.14.0.1 description asdaa
+ peer 10.15.0.1 group RR2-11
+ peer 10.15.0.1 description asdss
+ peer 10.15.0.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.16.4.1 group RR2-11
+ peer 10.16.4.1 description asddd
+ peer 10.17.0.2 group RR2-11
+ peer 10.10.0.2 group RR2-11
+ peer 10.10.0.2 description aswe
+ peer 10.18.0.1 group RR2-11
+ peer 10.18.0.1 description asdff
+ peer 10.18.16.1 group RR2-11
+ peer 10.18.16.1 description asdgg
+ peer 10.19.16.1 group RR2-11
+ peer 10.19.16.1 description asdgg
+ peer 10.20.0.1 group RR2-11
+ peer 10.20.0.1 description asdhh
+ peer 10.21.0.1 group RR2-11
+ peer 10.21.0.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+                peer 10.21.16.1 group RR2-11
+ peer 10.21.16.1 description asdjj
+ peer 10.21.16.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.21.32.1 group RR2-11
+ peer 10.21.32.1 description asdkk
+ peer 10.21.32.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.22.0.1 group RR2-11
+ peer 10.22.0.1 description asdll
+ peer 10.22.16.1 group RR2-11
+ peer 10.22.16.1 description asdzz
+ peer 10.22.32.1 group RR2-11
+ peer 10.22.32.1 description asdxx
+ peer 10.22.48.1 group RR2-11
+ peer 10.22.48.1 descriptionasdcc
+ peer 10.22.48.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.22.64.1 group RR2-11
+ peer 10.22.64.1 description asdvv
+ peer 10.22.64.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.22.80.1 group RR2-11
+ peer 10.22.80.1 description asdbb
+ peer 10.22.96.1 group RR2-11
+ peer 10.22.96.1 description asdnn
+ peer 10.23.16.1 group RR2-11
+                peer 10.23.16.1 description asdmm
+ peer 10.24.0.1 group RR2-11
+ peer 10.24.0.1 description asdqw
+ peer 10.24.16.1 group RR2-11
+ peer 10.24.16.1 description asdqe
+ peer 10.24.32.1 group RR2-11
+ peer 10.24.32.1 description asdqr
+ peer 10.24.48.1 group RR2-11
+ peer 10.24.48.1 description asdqt
+ peer 10.24.64.1 group RR2-11
+ peer 10.24.64.1 description asdqy
+ peer 10.24.80.1 group RR2-11
+ peer 10.24.80.1 description asdqu
+ peer 10.24.80.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.24.96.1 group RR2-11
+ peer 10.24.96.1 description asdqi
+ peer 10.25.16.1 group RR2-11
+ peer 10.25.16.1 description asdqo
+ peer 10.25.16.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.26.0.1 group RR2-11
+ peer 10.26.0.1 description asdqp
+ peer 10.26.16.1 group RR2-11
+ peer 10.26.16.1 description asdqa
+                peer 10.26.32.1 group RR2-11
+ peer 10.26.32.1 description asdqs
+ peer 10.26.48.1 group RR2-11
+ peer 10.26.48.1 description asdqd
+ peer 10.26.64.1 group RR2-11
+ peer 10.26.64.1 description asdqf
+ peer 10.26.80.1 group RR2-11
+ peer 10.26.80.1 description asdqg
+ peer 10.27.16.1 group RR2-11
+ peer 10.27.16.1 description asdqg
+ peer 10.28.0.1 group RR2-11
+ peer 10.28.0.1 description ͨasdqh
+ peer 10.28.16.1 group RR2-11
+ peer 10.28.16.1 description asdqj
+ peer 10.28.16.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ peer 10.28.32.1 group RR2-11
+ peer 10.28.32.1 description asdqk
+ peer 10.28.48.1 group RR2-11
+ peer 10.28.48.1 description asdql
+ peer 10.29.16.1 group RR2-11
+ peer 10.29.16.1 description asdqz
+ peer 10.29.16.1 password cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ 
+ #
+                address-family ipv4 unicast
+  dampening
+  reflector cluster-id 105
+  preference 10 100 255
+  peer RR2-11 enable
+  peer RR2-11 route-policy rmRR2ToAll export
+  peer RR2-11 advertise-community
+  peer RR2-11 advertise-ext-community
+  peer RR2-11 reflect-client
+  peer 10.11.0.2 enable
+  peer 10.11.0.2 route-policy rmRR2ToAll export
+  peer 10.11.0.2 advertise-community
+  peer 10.11.0.2 advertise-ext-community
+  peer 10.11.8.16 enable
+  peer 10.11.8.16 advertise-community
+  peer 10.11.8.16 advertise-ext-community
+ 
+ #
+ address-family vpnv4
+  undo policy vpn-target
+                 peer RR2-11 enable
+  peer RR2-11 advertise-community
+  peer 10.11.0.2 enable
+  peer 10.11.0.2 advertise-community
+  peer 10.101.0.2 enable
+  peer 10.101.0.2 advertise-community
+#
+route-policy rmRR2ToAll permit node 10
+ if-match community 100
+#
+ ip community-list 100 permit ^2[1-8]:0$
+ ip community-list 100 permit 65000:0
+ ip community-list 100 permit ^5[4-5]:[0-1][0-9][0-9].$
+#
+ scheduler logfile size 16
+#
+line class aux
+ user-role network-operator
+#
+line class console
+ user-role network-admin
+#
+line class vty
+                user-role network-operator
+#
+line aux 0 1
+ user-role network-operator
+#
+line con 0 1
+ user-role network-admin
+#
+line vty 0 4
+ authentication-mode scheme
+ user-role huawei
+ user-role network-operator
+#
+line vty 5 63
+ user-role network-operator
+#
+ info-center loghost source LoopBack1
+ info-center loghost 10.11.8.100
+#
+ snmp-agent
+ snmp-agent local-engineid 8000291780DC2DCB3D900100000001
+ snmp-agent sys-info version v3 
+ snmp-agent group v3 ipnmgroup authentication read-view ipnmview write-view ipnmview notify-view ipnmview
+                snmp-agent target-host trap address udp-domain 10.11.8.100 params securityname ipnmuser v3 authentication
+ snmp-agent target-host trap address udp-domain 10.11.8.2 params securityname ipnmuser v3 authentication
+ snmp-agent mib-view included ipnmview iso 
+ snmp-agent usm-user v3 ipnmuser ipnmgroup cipher authentication-mode md5 $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
+ snmp-agent trap enable arp 
+ snmp-agent trap enable radius 
+ snmp-agent trap enable syslog 
+ snmp-agent trap source LoopBack1
+#
+ ssh server enable
+#
+domain name system
+#
+ domain default enable system
+#
+role name huawei
+#
+role name level-0
+ description Predefined level-0 role
+#
+role name level-1
+ description Predefined level-1 role
+#
+               role name level-2
+ description Predefined level-2 role
+#
+role name level-3
+ description Predefined level-3 role
+#
+role name level-4
+ description Predefined level-4 role
+#
+role name level-5
+ description Predefined level-5 role
+#
+role name level-6
+ description Predefined level-6 role
+#
+role name level-7
+ description Predefined level-7 role
+#
+role name level-8
+ description Predefined level-8 role
+#
+role name level-9
+ description Predefined level-9 role
+               #
+role name level-10
+ description Predefined level-10 role
+#
+role name level-11
+ description Predefined level-11 role
+#
+role name level-12
+ description Predefined level-12 role
+#
+role name level-13
+ description Predefined level-13 role
+#
+role name level-14
+ description Predefined level-14 role
+#
+user-group system
+#
+local-user Ygzx-jkddx class manage
+ password hash $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==$abcdeabcdeabcdeabcdeabcdeabcdeabcddasdfghjklqdeabcdeabcdeA==
+ service-type ssh telnet terminal
+ authorization-attribute user-role level-15
+ authorization-attribute user-role network-admin
+                authorization-attribute user-role network-operator
+#
+local-user huawei class manage
+ password hash $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==$abcdeabcdeabcdeabcdeabcdeabcdeabcddasdfghjklqdeabcdeabcdeA==
+ service-type ssh telnet
+ authorization-attribute user-role network-admin
+ authorization-attribute user-role network-operator
+#
+local-user ipnmuser class manage
+ password hash $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==$abcdeabcdeabcdeabcdeabcdeabcdeabcddasdfghjklqdeabcdeabcdeA==
+ service-type ssh telnet terminal
+ authorization-attribute user-role level-15
+ authorization-attribute user-role network-admin
+ authorization-attribute user-role network-operator
+#

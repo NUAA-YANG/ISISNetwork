@@ -134,7 +134,7 @@ aaa
 license
 #
 isis 11
- is-level level-1-2
+ is-level level-2
  cost-style wide
  bfd all-interfaces enable
  bfd all-interfaces min-tx-interval 1000 min-rx-interval 1000

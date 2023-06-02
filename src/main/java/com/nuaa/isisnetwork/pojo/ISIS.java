@@ -20,7 +20,7 @@ public class ISIS {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String num;//isis编号
+    private String flag;//isis代号
     private String type;//isis协议等级
     private String net;//net号码
     private String lxdName;//所属容器名称

@@ -17,7 +17,7 @@ public class LinuxConnection {
 
     /***
      * @description  jsch创建连接
-     * @date 2023/5/4 14:56
+     * @date 2023/6/1 14:56
      * @params [ip地址, port端口号, userName用户名, password密码]
      * @returns Session 对象
      */
