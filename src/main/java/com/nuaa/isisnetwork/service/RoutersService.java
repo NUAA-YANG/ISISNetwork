@@ -41,4 +41,9 @@ public class RoutersService {
     @Transactional
     public List<Routers> getList(){return routersRepository.findAll();}
 
+    //根据名字删除
+    @Transactional
+    public void deleteByName(String name){
+        routersRepository.deleteRoutersByName(name);
+    }
 }

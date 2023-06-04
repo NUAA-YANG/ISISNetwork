@@ -1,0 +1,35 @@
+<Information>
+    <type>router</type><!--描述为路由器router-->
+    <manufacture>HuaWei</manufacture><!--厂商-->
+    <lxdName>R11</lxdName>
+    <interfaces><!--描述接口信息-->
+        <interface><!--描述详细接口信息-->
+            <name>eth1</name>
+            <ipAddress>192.168.12.2</ipAddress>
+            <subnetMask>24</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth2</name>
+            <ipAddress>192.168.15.5</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth3</name>
+            <ipAddress>192.168.15.9</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth4</name>
+            <ipAddress>192.168.15.1</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+    </interfaces>
+    <protocol><!--描述协议信息-->
+        <isis>
+            <flag>11</flag><!--isis编号-->
+            <type>level-1</type><!--isis协议等级-->
+            <net>10.7307.1921.6801.2002.00</net><!--isis协议net号-->
+            <ethName>eth1;eth2;eth3;eth4;</ethName><!--isis协议网卡的名称-->
+        </isis>
+    </protocol>
+</Information>

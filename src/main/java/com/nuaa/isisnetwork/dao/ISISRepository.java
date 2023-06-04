@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @Java-version jdk1.8
  */
 public interface ISISRepository extends JpaRepository<ISIS,Integer>, JpaSpecificationExecutor<ISIS> {
+
+    //根据容器名称删除数据库的isis协议
+    void deleteISISByLxdName(String lxdName);
 }

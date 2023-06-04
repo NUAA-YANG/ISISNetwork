@@ -42,8 +42,11 @@ public class FtlXml {
         for (File file:listFiles){
             //获得解析的键值对
             Map<String, Object> map = textMatch.MatchFtl(file);
-            //生成xml文件
-            ftlToXml(map,savePath);
+            //有内容才生成xml描述文件
+            if (!map.isEmpty()){
+                //生成xml文件
+                ftlToXml(map,savePath);
+            }
         }
     }
 

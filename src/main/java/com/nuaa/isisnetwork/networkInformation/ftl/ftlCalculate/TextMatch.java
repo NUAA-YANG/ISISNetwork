@@ -1,11 +1,16 @@
 package com.nuaa.isisnetwork.networkInformation.ftl.ftlCalculate;
 
+import com.nuaa.isisnetwork.pojo.ISIS;
 import com.nuaa.isisnetwork.pojo.NetInterfaces;
+import com.nuaa.isisnetwork.pojo.Routers;
+import com.nuaa.isisnetwork.service.ISISService;
+import com.nuaa.isisnetwork.service.NetInterfacesService;
+import com.nuaa.isisnetwork.service.RoutersService;
 import com.nuaa.isisnetwork.utils.NetmaskUtil;
-import com.nuaa.isisnetwork.vo.InterfaceFtl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.RouteMatcher;
 
 import java.io.*;
 import java.util.*;
@@ -23,6 +28,12 @@ import java.util.regex.Pattern;
 public class TextMatch {
     @Autowired
     NetmaskUtil netmaskUtil;
+    @Autowired
+    ISISService isisService;
+    @Autowired
+    NetInterfacesService netInterfacesService;
+    @Autowired
+    RoutersService routersService;
 
     public static void main(String[] args) throws IOException {
         TextMatch textMatch = new TextMatch();
@@ -43,7 +54,6 @@ public class TextMatch {
     }
 
     public Map<String,Object> MatchFtl(File file) throws IOException {
-
 
         //存储最后的结果
         Map<String, Object> dataMap = new HashMap<>();
@@ -68,6 +78,10 @@ public class TextMatch {
         String ethName = "";
         //标识是否有isis协议
         String isisFlag = null;
+        //容器拥有网卡拼接id
+        String interfacesId = "";
+        //isis协议id
+        Integer isisId = 0;
 
         //定义关键字
         String keyWord = null;
@@ -106,7 +120,15 @@ public class TextMatch {
                     Integer subnetMask = netmaskUtil.calculateNetmask(matcher.group(2));//获得子网掩码
                     //=============添加网卡接口信息============
                     NetInterfaces netInterfaces = new NetInterfaces(0, name, ipAddress, subnetMask, lxdName);
+                    //生成ftl模板的网卡信息
                     netInterfacesList.add(netInterfaces);
+                    //如果不存在相同名称的路由器，则存入
+                    if(routersService.getByName(lxdName)==null){
+                        //将网卡信息写入数据库
+                        NetInterfaces saveNetInterfaces = netInterfacesService.save(netInterfaces);
+                        //获得存储的网卡信息拼接id
+                        interfacesId+=saveNetInterfaces.getId()+"_";
+                    }
                 }
             }
 
@@ -157,24 +179,41 @@ public class TextMatch {
             }
         }
 
-        //用于判断是否有isis协议
-        dataMap.put("isisFlag",isisFlag);
-        //说明配置文件中包含isis协议，添加协议相关属性
-        if (isisFlag!=null && "yes".equals(isisFlag)){
-            dataMap.put("flag",flag);
-            dataMap.put("net",net);
-            dataMap.put("ethName",ethName);
-            dataMap.put("type",type);
+        //如果不存在相同名称的路由器，则存入
+        if(routersService.getByName(lxdName)==null){
+            //用于判断是否有isis协议
+            dataMap.put("isisFlag",isisFlag);
+            //说明配置文件中包含isis协议，添加协议相关属性
+            if (isisFlag!=null && "yes".equals(isisFlag)){
+                dataMap.put("flag",flag);
+                dataMap.put("net",net);
+                dataMap.put("ethName",ethName);
+                dataMap.put("type",type);
+                //将isis协议存入数据库
+                ISIS isis = new ISIS(0, flag, type, net, lxdName, ethName);
+                ISIS saveISIS = isisService.save(isis);
+                //获取存储的isis协议信息
+                isisId = saveISIS.getId();
+            }
+
+            //添加网卡接口
+            if (netInterfacesList.size()>0){
+                dataMap.put("netInterfacesList",netInterfacesList);
+            }
+            //添加容器名称
+            dataMap.put("lxdName",lxdName);
+            //添加厂商
+            dataMap.put("manufacture",manufacture);
+            //将路由器信息存入数据库
+            Routers routers = new Routers(0, lxdName, interfacesId, isisId);
+            routersService.save(routers);
+            System.out.println("名称为【"+lxdName+"】的容器已成功导入!");
+            return dataMap;
+        }else {
+            //直接返回一个空的集合
+            System.out.println("名称为【"+lxdName+"】的容器已经存在，不能再次使用，请重命名后导入");
+            return new HashMap<>();
         }
-        //添加网卡接口
-        if (netInterfacesList.size()>0){
-            dataMap.put("netInterfacesList",netInterfacesList);
-        }
-        //添加容器名称
-        dataMap.put("lxdName",lxdName);
-        //添加厂商
-        dataMap.put("manufacture",manufacture);
-        return dataMap;
     }
 
 

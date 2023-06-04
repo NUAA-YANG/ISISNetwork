@@ -39,5 +39,11 @@ public class ISISService {
         return isisRepository.findAll();
     }
 
+    //根据容器名称删除ISIS
+    @Transactional
+    public void deleteByLxdName(String lxdName){
+        isisRepository.deleteISISByLxdName(lxdName);
+    }
+
 
 }

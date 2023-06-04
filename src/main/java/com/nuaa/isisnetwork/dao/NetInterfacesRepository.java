@@ -18,4 +18,6 @@ import java.util.List;
 //接口继承实现Net接口的增删改查
 public interface NetInterfacesRepository extends JpaRepository<NetInterfaces,Integer>, JpaSpecificationExecutor<NetInterfaces> {
 
+    //根据容器名称删除网卡接口
+    void deleteNetInterfacesByLxdName(String lxdName);
 }

@@ -1,6 +1,7 @@
 package com.nuaa.isisnetwork;
 
 import com.nuaa.isisnetwork.networkInformation.ftl.ftlCalculate.FtlXml;
+import com.nuaa.isisnetwork.service.MangeDaoService;
 import freemarker.template.TemplateException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,7 @@ public class IsisNetworkApplication {
         String xmlPath = "src/main/java/com/nuaa/isisnetwork/networkInformation/networkXml";
 
 
-        System.out.println("==============1.测试生成xml文件============");
+        System.out.println("==============1.生成xml文件并写入数据库============");
         FtlXml ftlXml = context.getBean(FtlXml.class);
         ftlXml.createXml(profilePath,xmlPath);
 

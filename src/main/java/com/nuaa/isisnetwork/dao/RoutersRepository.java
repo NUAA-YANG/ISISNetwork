@@ -16,4 +16,7 @@ public interface RoutersRepository extends JpaRepository<Routers,Integer>, JpaSp
 
     //根据路由器名称查询
     Routers findRoutersByName(String name);
+
+    //根据名称删除内容
+    void deleteRoutersByName(String name);
 }

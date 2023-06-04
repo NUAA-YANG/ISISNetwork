@@ -45,5 +45,11 @@ public class NetInterfacesService {
         return netInterfacesRepository.findAll();
     }
 
+    //根据容器名称删除网卡
+    @Transactional
+    public void deleteByLxdName(String lxdName){
+        netInterfacesRepository.deleteNetInterfacesByLxdName(lxdName);
+    }
+
 
 }
