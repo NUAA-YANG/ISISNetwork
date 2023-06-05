@@ -53,23 +53,26 @@ public class CreateBridge {
     }
 
 
+
     /**
-     * @description 构建网桥以及连接网桥
-     * @date 2023/6/5 11:24
-     * @params [profilePath：网管信息存储位置]
-     * @returns java.util.List<java.lang.String> 
+     * @description  构建网桥以及连接网桥
+     * @date 2023/6/5 20:06
+     * @params [profilePath:网管信息存储位置]
+     * @returns 第一个元素返回构造容器，第二个元素返回强行删除容器
      */
-    
-    public List<String> CreateAndAttachBridge(String profilePath) throws Exception {
+    public List<List<String>> CreateAndAttachBridge(String profilePath) throws Exception {
+        List<List<String>> list = new ArrayList<>();
         //返回网桥的创建语句
         List<String> cmds = new ArrayList<>();
+        //用来删除网桥
+        List<String> delete = new ArrayList<>();
         //1. 获取当前配置文件对应的网卡集合信息
-        List<NetInterfaces> list = infoUtil.getNetInterfacesList(profilePath);
+        List<NetInterfaces> netList = infoUtil.getNetInterfacesList(profilePath);
         //2. 匹配接口
         for (int i = 0 ; i<list.size() ; i++){
             //待匹配的网卡接口
-            NetInterfaces searchInterfaces = list.get(i);
-            NetInterfaces findInterfaces = matchIp(searchInterfaces, list);
+            NetInterfaces searchInterfaces = netList.get(i);
+            NetInterfaces findInterfaces = matchIp(searchInterfaces, netList);
             //2.1 匹配失败
             if (findInterfaces==null){
                 writeLog.log("第"+i+"条:容器【"+searchInterfaces.getLxdName()+"】中端口【"+searchInterfaces.getName()+"】匹配失败");
@@ -82,13 +85,16 @@ public class CreateBridge {
                 //连接网桥(参数分别为网桥名称、容器名称以及容器网卡名称)
                 cmds.add("lxc network attach "+bridgeName+" "+searchInterfaces.getLxdName()+" "+searchInterfaces.getName()+";");
                 cmds.add("lxc network attach "+bridgeName+" "+findInterfaces.getLxdName()+" "+findInterfaces.getName()+";");
+                delete.add("lxc network delete "+bridgeName);
                 //将成功创建的网桥信息存入数据库
                 bridgeService.save(new Bridge(0,bridgeName,searchInterfaces.getLxdName()+":"+searchInterfaces.getName(),findInterfaces.getLxdName()+":"+findInterfaces.getName()));
                 //将查询到的接口移除
                 list.remove(findInterfaces);
             }
         }
-        return cmds;
+        list.add(cmds);
+        list.add(delete);
+        return list;
     }
     
     

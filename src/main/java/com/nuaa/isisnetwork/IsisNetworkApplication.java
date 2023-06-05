@@ -37,16 +37,19 @@ public class IsisNetworkApplication {
 
         System.out.println("==============2.创建LXD容器============");
         CreateLxd createLxd = context.getBean(CreateLxd.class);
-        List<String> cmd2 = createLxd.createLxd(profilePath);
-        writeLog.logBash(cmd2);
+        List<String> cmd2 = createLxd.createLxd(profilePath).get(0);
+        List<String> delete2 = createLxd.createLxd(profilePath).get(1);
+        writeLog.createOrDeleteBash(cmd2,"create");
+        writeLog.createOrDeleteBash(delete2,"delete");
 
 
 
         System.out.println("==============3.创建并连接网桥============");
         CreateBridge createBridge = context.getBean(CreateBridge.class);
-        List<String> cmd3 = createBridge.CreateAndAttachBridge(profilePath);
-        writeLog.logBash(cmd3);
-
+        List<String> cmd3 = createBridge.CreateAndAttachBridge(profilePath).get(0);
+        List<String> delete3 = createBridge.CreateAndAttachBridge(profilePath).get(1);
+        writeLog.createOrDeleteBash(cmd3,"create");
+        writeLog.createOrDeleteBash(delete3,"delete");
     }
 
 }

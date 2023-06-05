@@ -18,6 +18,7 @@ import java.util.List;
 @Component
 public class WriteLog {
 
+    //写入日志
     public void log(List<String> info) throws IOException {
         File file = new File("src/main/java/com/nuaa/isisnetwork/Create.log");
         //追加内容
@@ -29,8 +30,9 @@ public class WriteLog {
         writer.close();
     }
 
+    //写入日志
     public void log(String info) throws IOException {
-        File file = new File("src/main/java/com/nuaa/isisnetwork/Create.log");
+        File file = new File("src/main/java/com/nuaa/isisnetwork/generateFile/Create.log");
         //追加内容
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true)));
         writer.write(info+"\n");
@@ -38,10 +40,20 @@ public class WriteLog {
         writer.close();
     }
 
-    public void logBash(List<String> info) throws IOException {
-        File file = new File("src/main/java/com/nuaa/isisnetwork/CreateBash.sh");
+
+    //写入创建或删除过程脚本
+    public void createOrDeleteBash(List<String> info,String type) throws IOException {
+        File file = null;
+        //写入创建过程
+        if ("create".equals(type)){
+            file = new File("src/main/java/com/nuaa/isisnetwork/generateFile/CreateBash.sh");
+        }else if ("delete".equals(type)){
+            //写入删除过程
+            file = new File("src/main/java/com/nuaa/isisnetwork/generateFile/DeleteBash.sh");
+        }
         //追加内容
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true)));
+        //writer.write("#!/bin/bash");
         for (String line:info){
             writer.write(line+"\n");
         }
