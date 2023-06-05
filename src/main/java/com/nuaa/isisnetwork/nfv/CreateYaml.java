@@ -41,7 +41,7 @@ public class CreateYaml {
             //将命令放入到集合中
             cmds.add("echo \""+yaml+"\" > /home/yzx/AutoNetwork/"+routers.getName()+"/10-lxc.yaml");
             //写入日志
-            writeLog.log("成功创建文件夹 /home/yzx/AutoNetwork/"+routers.getName()+",且写入接口配置文件");
+            writeLog.log("成功创建文件夹 /home/yzx/AutoNetwork/"+routers.getName()+",且写入【10-lxc.yaml】接口配置文件");
         }
         return cmds;
     }
