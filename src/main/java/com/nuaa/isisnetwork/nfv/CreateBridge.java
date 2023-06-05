@@ -21,6 +21,7 @@ import java.util.ListIterator;
  */
 @Service
 @Component
+//创建网桥
 public class CreateBridge {
     @Autowired
     NetmaskUtil netmaskUtil;
