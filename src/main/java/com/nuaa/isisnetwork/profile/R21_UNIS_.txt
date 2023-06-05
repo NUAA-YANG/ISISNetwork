@@ -17,7 +17,7 @@
 #
 isis 11
  graceful-restart
- is-level level-1
+ is-level level-2
  cost-style wide
  flash-flood max-timer-interval 100 
  timer spf 1 50 100

@@ -1,5 +1,6 @@
 package com.nuaa.isisnetwork.networkInformation.ftl.ftlCalculate;
 
+import com.nuaa.isisnetwork.utils.WriteLog;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -28,6 +29,8 @@ public class FtlXml {
 
     @Autowired
     TextMatch textMatch;
+    @Autowired
+    WriteLog writeLog;
 
 
     /**
@@ -69,6 +72,7 @@ public class FtlXml {
         String manufacture = (String) dataMap.get("manufacture");
         //创建一个位置用于存放生成的文件，指定生成xml文件
         Writer writer = new FileWriter(savePath+"/"+lxdName+"_"+manufacture+"_"+".xml");
+        writeLog.log("生成网络描述文件【"+lxdName+"_"+manufacture+"_"+".xml】");
         template.process(dataMap,writer);
     }
 

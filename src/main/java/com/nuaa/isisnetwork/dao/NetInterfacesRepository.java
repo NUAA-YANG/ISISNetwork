@@ -20,4 +20,8 @@ public interface NetInterfacesRepository extends JpaRepository<NetInterfaces,Int
 
     //根据容器名称删除网卡接口
     void deleteNetInterfacesByLxdName(String lxdName);
+
+    //根据容器名称获得网卡接口集合
+    @Query("select n from NetInterfaces n where n.lxdName=?1")
+    List<NetInterfaces> findNetInterfacesByLxdName(String lxdName);
 }

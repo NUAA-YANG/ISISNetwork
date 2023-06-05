@@ -1134,7 +1134,7 @@ $
 router isis 11
   area 10.7106
   system-id 1921.6801.5041
-  is-type level-1
+  is-type level-2
   metric-style wide
   distance 20
   lsp-gen-interval 5 20 50

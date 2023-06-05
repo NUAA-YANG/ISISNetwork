@@ -7,6 +7,7 @@ import com.nuaa.isisnetwork.service.ISISService;
 import com.nuaa.isisnetwork.service.NetInterfacesService;
 import com.nuaa.isisnetwork.service.RoutersService;
 import com.nuaa.isisnetwork.utils.NetmaskUtil;
+import com.nuaa.isisnetwork.utils.WriteLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class TextMatch {
     NetInterfacesService netInterfacesService;
     @Autowired
     RoutersService routersService;
+    @Autowired
+    WriteLog writeLog;
 
     public static void main(String[] args) throws IOException {
         TextMatch textMatch = new TextMatch();
@@ -59,8 +62,10 @@ public class TextMatch {
         Map<String, Object> dataMap = new HashMap<>();
         //根据文件来获取容器名称和所属厂商
         String[] lxcInfo = file.getName().split("_");
+        //配置文件中获取的容器名称
         String lxdName = lxcInfo[0];
         String manufacture = lxcInfo[1];
+
 
         //读取文本文件
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -68,6 +73,8 @@ public class TextMatch {
 
         //存储网卡的接口
         List<NetInterfaces> netInterfacesList = new ArrayList<>();
+        //定义网管文件中识别到的容器名称
+        String profileLxdName = null;
         //isis编号
         String flag = null;
         //isis协议等级
@@ -136,6 +143,22 @@ public class TextMatch {
             //因为紫光出自华为，所以匹配规则几乎相同
             if ("HuaWei".equals(manufacture) || "UNIS".equals(manufacture)){
 
+                //匹配网管信息中的容器名称，用来校验是否和文件名称中是否一样
+                if(line.matches("(.)*sysname(.)*")){
+                    //华为和紫光的匹配规则有所不同
+                    if ("HuaWei".equals(manufacture)){
+                        profileLxdName = line.split("\\s+")[1];
+                    }else {
+                        profileLxdName = line.split("\\s+")[2];
+                    }
+
+                    //如果名称不对应，则直接停止
+                    if (!lxdName.equals(profileLxdName)){
+                        writeLog.log("配置文件【"+file.getName()+"】中容器名称和文件名称不对应，请重新核验后导入");
+                        break;
+                    }
+                }
+
                 //匹配等级
                 if (line.matches("(.)*is-level(.)*")){
                     String[] splitLevel = line.split("\\s+");
@@ -157,6 +180,17 @@ public class TextMatch {
 
             }else if ("ZTE".equals(manufacture)) {
                 //中兴路由器
+
+                //匹配网管信息中的容器名称，用来校验是否和文件名称中是否一样
+                if(line.matches("(.)*hostname(.)*")){
+                    profileLxdName = line.split("\\s+")[1];
+                    //如果名称不对应，则直接停止
+                    if (!lxdName.equals(profileLxdName)){
+                        writeLog.log("配置文件【"+file.getName()+"】中容器名称和文件名称不对应，请重新核验后导入");
+                        break;
+                    }
+                }
+
 
                 //匹配等级
                 if (line.matches("(.)*is-type(.)*")){
@@ -207,11 +241,11 @@ public class TextMatch {
             //将路由器信息存入数据库
             Routers routers = new Routers(0, lxdName, interfacesId, isisId);
             routersService.save(routers);
-            System.out.println("名称为【"+lxdName+"】的容器已成功导入!");
+            writeLog.log("名称为【"+lxdName+"】的容器已成功导入!");
             return dataMap;
         }else {
             //直接返回一个空的集合
-            System.out.println("名称为【"+lxdName+"】的容器已经存在，不能再次使用，请重命名后导入");
+            writeLog.log("名称为【"+lxdName+"】的容器已经存在，不能再次使用，请重命名后导入");
             return new HashMap<>();
         }
     }
@@ -223,7 +257,7 @@ public class TextMatch {
     public String changeLevel(String level){
         if (level.equals("level-1")){
             return "level-1";
-        }else if (level.equals("level-2")){
+        }else if (level.equals("level-2") || level.equals("level-2-only")){
             return "level-2-only";
         } else{
             return "level-1-2";
