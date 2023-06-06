@@ -35,4 +35,26 @@ public class FilePush {
         }
         return cmds;
     }
+
+    //只替换yaml文件
+    public List<String> pushYaml(String profilePath) throws IOException {
+        List<String> cmds = new ArrayList<>();
+        List<String> lxdNameList = infoUtil.getLxdNameList(profilePath);
+        for (String name:lxdNameList){
+            cmds.add("lxc file push /home/yzx/AutoNetwork/"+name+"/10-lxc.yaml "+name+"/etc/netplan/");
+            writeLog.log("成功将容器【"+name+"】中的文件进行替换");
+        }
+        return cmds;
+    }
+
+    //只替换frr文件
+    public List<String> pushFrr(String profilePath) throws IOException {
+        List<String> cmds = new ArrayList<>();
+        List<String> lxdNameList = infoUtil.getLxdNameList(profilePath);
+        for (String name:lxdNameList){
+            cmds.add("lxc file push /home/yzx/AutoNetwork/"+name+"/10-lxc.yaml "+name+"/etc/netplan/");
+            writeLog.log("成功将容器【"+name+"】中的文件进行替换");
+        }
+        return cmds;
+    }
 }

@@ -41,8 +41,13 @@ public class WriteLog {
     }
 
 
-    //写入创建或删除过程脚本
-    public void createOrDeleteBash(List<String> info,String type) throws IOException {
+    /**
+     * @description  写入创建或删除过程脚本
+     * @date 2023/6/5 20:30
+     * @params [note：当前写入脚本的注释信息, info：写入内容, type：写入类型]
+     * @returns void
+     */
+    public void createOrDeleteBash(String note,List<String> info,String type) throws IOException {
         File file = null;
         //写入创建过程
         if ("create".equals(type)){
@@ -53,7 +58,10 @@ public class WriteLog {
         }
         //追加内容
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true)));
-        //writer.write("#!/bin/bash");
+        //不为空才写入
+        if (note!=null){
+            writer.write(note+"\n");
+        }
         for (String line:info){
             writer.write(line+"\n");
         }

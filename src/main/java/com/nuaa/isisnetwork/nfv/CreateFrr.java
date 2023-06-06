@@ -64,7 +64,7 @@ public class CreateFrr {
         ISIS isis = isisService.getById(isisId);
         if (isis!=null){
             //遍历添加相关网卡信息
-            String[] ethNameArray = isis.getEthName().split("_");
+            String[] ethNameArray = isis.getEthName().split(";");
             for (String ethName:ethNameArray){
                 if (!ethName.equals("")){
                     config.append("interface "+ethName+"\n" +

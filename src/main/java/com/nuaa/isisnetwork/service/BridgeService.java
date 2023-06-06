@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @Author YZX
@@ -22,5 +23,13 @@ public class BridgeService {
     //保存网桥
     @Transactional
     public Bridge save(Bridge bridge){return bridgeRepository.save(bridge);}
+
+    //获得构建成功且升序排序后的网桥
+    @Transactional
+    public List<Bridge> getHeadOrderAscList(){return bridgeRepository.findAllByOrderByBridgeHeadAsc();}
+
+    //获得构建成功且降序排序后的网桥
+    @Transactional
+    public List<Bridge> getEndOrderDescList(){return bridgeRepository.findAllByOrderByBridgeEndAsc();}
 
 }

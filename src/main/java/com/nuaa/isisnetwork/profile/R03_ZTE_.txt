@@ -32,8 +32,7 @@ interface eth2
 $
 interface eth3
   description abcd-MP7300-G1/0/1-1G
-  ip address 192.168.15.33 255.255.255.252  
-ip address 192.168.15.44 255.255.255.252  
+  ip address 192.168.15.33 255.255.255.252
   no shutdown
 $
 interface eth4

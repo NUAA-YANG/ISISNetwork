@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @Author YZX
@@ -53,23 +51,47 @@ public class CreateBridge {
     }
 
 
-
-    /**
-     * @description  构建网桥以及连接网桥
-     * @date 2023/6/5 20:06
-     * @params [profilePath:网管信息存储位置]
-     * @returns 第一个元素返回构造容器，第二个元素返回强行删除容器
-     */
-    public List<List<String>> CreateAndAttachBridge(String profilePath) throws Exception {
+    public List<List<String>> createBridge(String profilePath) throws Exception {
         List<List<String>> list = new ArrayList<>();
         //返回网桥的创建语句
         List<String> cmds = new ArrayList<>();
         //用来删除网桥
         List<String> delete = new ArrayList<>();
+        //标识成功创建的网桥
+        ArrayList<String> bridge = new ArrayList<>();
+        TreeMap<String, String> map = matchAllBridge(profilePath);
+        map.forEach((key,value)->{
+            System.out.println(key+":"+value);
+            //如果不存在这个网桥，添加创建和删除
+            if (!bridge.contains(value)){
+                cmds.add("lxc network create "+value+" ipv6.address=none ipv4.address=none;");
+                delete.add("lxc network delete " + value);
+                //将网桥的名称添进入列表
+                bridge.add(value);
+            }
+            //连接网桥
+            String[] ethInfo = key.split(":");
+            cmds.add("lxc network attach "+value+" "+ethInfo[0]+" "+ethInfo[1]+";");
+        });
+        list.add(cmds);
+        list.add(delete);
+        return list;
+    }
+
+
+    /**
+     * @description  匹配所有的网卡接口
+     * @date 2023/6/5 20:06
+     * @params [profilePath:网管信息存储位置]
+     * @returns 返回 key为【容器名称:对应的网卡】，value为网桥名称
+     */
+    public TreeMap<String, String> matchAllBridge(String profilePath) throws Exception {
+        //重写map排序
+        TreeMap<String,String> map= new TreeMap<String,String>();
         //1. 获取当前配置文件对应的网卡集合信息
         List<NetInterfaces> netList = infoUtil.getNetInterfacesList(profilePath);
         //2. 匹配接口
-        for (int i = 0 ; i<list.size() ; i++){
+        for (int i = 0 ; i<netList.size() ; i++){
             //待匹配的网卡接口
             NetInterfaces searchInterfaces = netList.get(i);
             NetInterfaces findInterfaces = matchIp(searchInterfaces, netList);
@@ -79,22 +101,17 @@ public class CreateBridge {
             }else {
                 //2.2 匹配成功
                 writeLog.log("第"+i+"条:接口【"+searchInterfaces.getLxdName()+":"+searchInterfaces.getName()+"】匹配成功【"+findInterfaces.getLxdName()+":"+findInterfaces.getName()+"】");
-                //创建网桥
+                //将容器名称和对应的网卡拼接，并且存入map键值对排序
                 String bridgeName = searchInterfaces.getLxdName()+findInterfaces.getLxdName();
-                cmds.add("lxc network create "+bridgeName+" ipv6.address=none ipv4.address=none;");
-                //连接网桥(参数分别为网桥名称、容器名称以及容器网卡名称)
-                cmds.add("lxc network attach "+bridgeName+" "+searchInterfaces.getLxdName()+" "+searchInterfaces.getName()+";");
-                cmds.add("lxc network attach "+bridgeName+" "+findInterfaces.getLxdName()+" "+findInterfaces.getName()+";");
-                delete.add("lxc network delete "+bridgeName);
+                map.put(searchInterfaces.getLxdName()+":"+searchInterfaces.getName(),bridgeName);
+                map.put(findInterfaces.getLxdName()+":"+findInterfaces.getName(),bridgeName);
                 //将成功创建的网桥信息存入数据库
                 bridgeService.save(new Bridge(0,bridgeName,searchInterfaces.getLxdName()+":"+searchInterfaces.getName(),findInterfaces.getLxdName()+":"+findInterfaces.getName()));
                 //将查询到的接口移除
-                list.remove(findInterfaces);
+                netList.remove(findInterfaces);
             }
         }
-        list.add(cmds);
-        list.add(delete);
-        return list;
+        return map;
     }
     
     

@@ -44,7 +44,7 @@ public class CreateLxd {
         //构造
         for (String lxdName:lxdNameList){
             //将创建容器的命令放入到集合中
-            cmds.add("lxc copy MouldLxd "+lxdName);
+            cmds.add("lxc copy LxcMould "+lxdName);
             delete.add("lxc delete "+lxdName+" --force");
             //写入日志文件
             writeLog.log("创建容器【"+lxdName+"】");

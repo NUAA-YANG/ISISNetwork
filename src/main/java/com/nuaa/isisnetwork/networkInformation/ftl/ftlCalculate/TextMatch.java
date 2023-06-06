@@ -199,8 +199,13 @@ public class TextMatch {
                 }
 
                 //匹配net号
+                //其中isis协议的net有匹配格式
                 if (line.matches("(.)*system-id(.)*")){
                     net = line.split("\\s+")[2];
+                    String netRegex = "[a-fA-F0-9]{2}(\\.[a-fA-F0-9]{4}){3,9}\\.[a-fA-F0-9]{2}";
+                    if (!net.matches(netRegex)){
+                        net = "10.7106."+net+".00";
+                    }
                 }
 
                 //匹配协议生效网卡的名称
