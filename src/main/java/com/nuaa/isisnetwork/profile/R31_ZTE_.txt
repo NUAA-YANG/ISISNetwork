@@ -20,17 +20,12 @@ service 0/4/0 ipflow enhance enable
 service 0/5/0 ipflow enhance enable
 !</system-management>
 !<if-intf>
-interface eth1 
-  description abc-LAN-1G
-   ip address 192.168.14.2 255.255.255.0  
-  no shutdown
-$
-interface eth2  
+interface eth1
   description abcd-MP7300-G1/0/1-1G
   ip address 192.168.15.38 255.255.255.252  
   no shutdown
 $
-interface eth3
+interface eth2
   description abcd-MP7300-G1/0/1-1G
   ip address 192.168.15.41 255.255.255.252  
   no shutdown

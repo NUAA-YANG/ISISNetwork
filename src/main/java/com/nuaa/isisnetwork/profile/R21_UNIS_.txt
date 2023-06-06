@@ -50,21 +50,6 @@ interface Pos1/2/3
 interface eth1
  description TO_aaaa_M6000-8S
  mtu 1600
- ip address 192.168.13.2 255.255.255.0
- isis enable 11
- isis circuit-level level-1
- isis cost 70000
- isis authentication-mode md5 cipher $abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeA==
- isis bfd enable 
- isis primary-path-detect bfd ctrl
- mpls enable
- mpls ldp enable
- mpls ldp timer keepalive-hold 30
- mpls ldp timer keepalive-interval 10
-#
-interface eth2
- description TO_aaaa_M6000-8S
- mtu 1600
  ip address 192.168.15.86 255.255.255.252
  isis enable 11
  isis circuit-level level-1
@@ -77,7 +62,7 @@ interface eth2
  mpls ldp timer keepalive-hold 30
  mpls ldp timer keepalive-interval 10
 #
-interface eth3
+interface eth2
  description TO_aaaa_M6000-8S
  mtu 1600
  ip address 192.168.15.90 255.255.255.252

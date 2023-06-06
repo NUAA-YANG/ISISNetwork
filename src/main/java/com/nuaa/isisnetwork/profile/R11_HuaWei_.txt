@@ -154,7 +154,7 @@ interface eth1
  negotiation auto
  description acd.M6000-8S-GEI-0/5/1/2-1000M
  undo shutdown
- ip address 192.168.12.2 255.255.255.0
+ ip address 192.168.15.5 255.255.255.252
  isis enable 11
  isis cost 4000
  mpls
@@ -165,17 +165,6 @@ interface eth2
  negotiation auto
  description acd.M6000-8S-GEI-0/5/1/2-1000M
  undo shutdown
- ip address 192.168.15.5 255.255.255.252
- isis enable 11
- isis cost 4000
- mpls
- mpls ldp
- undo dcn
-#
-interface eth3
- negotiation auto
- description acd.M6000-8S-GEI-0/5/1/2-1000M
- undo shutdown
  ip address 192.168.15.9 255.255.255.252
  isis enable 11
  isis cost 4000
@@ -183,7 +172,7 @@ interface eth3
  mpls ldp
  undo dcn
  #
-interface eth4
+interface eth3
  negotiation auto
  description acd.M6000-8S-GEI-0/5/1/2-1000M
  undo shutdown

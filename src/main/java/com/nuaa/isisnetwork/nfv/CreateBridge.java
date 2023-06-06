@@ -61,7 +61,6 @@ public class CreateBridge {
         ArrayList<String> bridge = new ArrayList<>();
         TreeMap<String, String> map = matchAllBridge(profilePath);
         map.forEach((key,value)->{
-            System.out.println(key+":"+value);
             //如果不存在这个网桥，添加创建和删除
             if (!bridge.contains(value)){
                 cmds.add("lxc network create "+value+" ipv6.address=none ipv4.address=none;");

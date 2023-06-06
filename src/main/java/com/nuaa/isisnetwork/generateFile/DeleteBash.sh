@@ -1,3 +1,19 @@
+#========2.删除LXD容器=========
+lxc delete R01 --force
+lxc delete R02 --force
+lxc delete R03 --force
+lxc delete R11 --force
+lxc delete R12 --force
+lxc delete R13 --force
+lxc delete R1 --force
+lxc delete R21 --force
+lxc delete R22 --force
+lxc delete R23 --force
+lxc delete R2 --force
+lxc delete R31 --force
+lxc delete R32 --force
+lxc delete R33 --force
+lxc delete R3 --force
 #========3.删除网桥=========
 lxc network delete R01R11
 lxc network delete R01R13
