@@ -913,3 +913,42 @@ lxc exec R31 systemctl restart frr
 lxc exec R32 systemctl restart frr
 lxc exec R33 systemctl restart frr
 lxc exec R3 systemctl restart frr
+#========11.加载ACL=========
+
+#========11.加载ACL=========
+echo "*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A FORWARD -m iprange -s 192.168.15.9/24 --dst-range 0.0.0.0-255.255.255.255 -j ACCEPT
+-A FORWARD -m iprange -s 192.168.15.13/24 --dst-range 0.0.0.0-255.255.255.255 -j ACCEPT
+-A FORWARD -m iprange --src-range 0.0.0.0-255.255.255.255 -d 192.168.15.38/32 -j DROP
+COMMIT
+" >> /root/AutoNetwork/R3/iptables.rules;
+echo "#!/bin/sh
+iptables-restore < /etc/iptables.rules
+exit 0" >> /root/AutoNetwork/R3/rc.local;
+chmod 777 /root/AutoNetwork/R3/rc.local
+echo "#!/bin/bash
+chmod 777 /lib/systemd/system/rc-local.service
+systemctl enable /lib/systemd/system/rc-local.service
+iptables-restore < /etc/iptables.rules;" >> /root/AutoNetwork/R3/startUpIptables.sh;
+echo "*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A FORWARD -s 192.168.15.38/30 -j ACCEPT
+-A FORWARD -s 192.168.15.46/30 -j ACCEPT
+-A FORWARD -s 192.168.15.74/30 -j DROP
+-A FORWARD -s 192.168.15.82/30 -j DROP
+-A FORWARD -s 192.168.15.86/30 -j DROP
+COMMIT
+" >> /root/AutoNetwork/R1/iptables.rules;
+echo "#!/bin/sh
+iptables-restore < /etc/iptables.rules
+exit 0" >> /root/AutoNetwork/R1/rc.local;
+chmod 777 /root/AutoNetwork/R1/rc.local
+echo "#!/bin/bash
+chmod 777 /lib/systemd/system/rc-local.service
+systemctl enable /lib/systemd/system/rc-local.service
+iptables-restore < /etc/iptables.rules;" >> /root/AutoNetwork/R1/startUpIptables.sh;

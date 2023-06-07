@@ -1,0 +1,35 @@
+<Information>
+    <type>router</type><!--描述为路由器router-->
+    <manufacture>UNIS</manufacture><!--厂商-->
+    <lxdName>R2</lxdName>
+    <interfaces><!--描述接口信息-->
+        <interface><!--描述详细接口信息-->
+            <name>eth1</name>
+            <ipAddress>192.168.15.54</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth2</name>
+            <ipAddress>192.168.15.58</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth3</name>
+            <ipAddress>192.168.15.62</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+        <interface><!--描述详细接口信息-->
+            <name>eth4</name>
+            <ipAddress>192.168.15.69</ipAddress>
+            <subnetMask>30</subnetMask>
+        </interface>
+    </interfaces>
+    <protocol><!--描述协议信息-->
+        <isis>
+            <flag>11</flag><!--isis编号-->
+            <type>level-2-only</type><!--isis协议等级-->
+            <net>10.7105.1921.6801.5069.00</net><!--isis协议net号-->
+            <ethName>eth1;eth2;eth3;eth4;</ethName><!--isis协议网卡的名称-->
+        </isis>
+    </protocol>
+</Information>
