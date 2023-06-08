@@ -41,11 +41,11 @@ public class TextMatch {
     public static void main(String[] args) throws IOException {
         TextMatch textMatch = new TextMatch();
         //测试华为配置文件
-        File file = new File("src/main/java/com/nuaa/isisnetwork/profile/R01_HuaWei_.txt");
+        File file = new File("src/main/java/com/nuaa/isisnetwork/profile/R01_HuaWei_Acl.txt");
         //测试紫光配置文件
         //File file = new File("src/main/java/com/nuaa/isisnetwork/profile/R02_UNIS_.txt");
         //测试中兴配置文件
-        //File file = new File("src/main/java/com/nuaa/isisnetwork/profile/R03_ZTE_.txt");
+        //File file = new File("src/main/java/com/nuaa/isisnetwork/profile/R03_ZTE_Acl.txt");
 
         Map<String, Object> map = textMatch.MatchFtl(file);
         Set<String> keySet = map.keySet();

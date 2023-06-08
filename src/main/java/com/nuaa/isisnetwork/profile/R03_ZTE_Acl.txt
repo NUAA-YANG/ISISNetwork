@@ -368,6 +368,11 @@ ipv4-access-list mm-vpn-ACL
 $
 ipv4-access-list nn-vpn-ACL
 $
+ipv4-access-list BJGK
+  rule 10 permit ip 192.168.15.9 0.0.0.3 any
+  rule 15 permit ip 192.168.15.13 0.0.0.3 any
+  rule 20 deny ip any 255.255.255.255 192.168.15.38 0.0.0.0
+$
 !</ipv4-acl>
 !<route-map>
 route-map BJGK-POLICY permit 10

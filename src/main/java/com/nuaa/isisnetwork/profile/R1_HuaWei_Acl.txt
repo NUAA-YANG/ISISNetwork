@@ -67,9 +67,6 @@ dot1x-template 1
 acl number 3001
  rule 10 permit ip source 192.168.15.38 0.0.0.3
  rule 15 permit ip source 192.168.15.46 0.0.0.3
- rule 20 deny ip source 192.168.15.74 0.0.0.3
- rule 25 deny ip source 192.168.15.82 0.0.0.3
- rule 30 deny ip source 192.168.15.86 0.0.0.3
  #
 security password
  #

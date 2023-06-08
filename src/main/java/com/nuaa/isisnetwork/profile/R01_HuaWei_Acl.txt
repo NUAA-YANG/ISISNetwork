@@ -63,6 +63,11 @@ mpls ldp
 dhcp server request-packet all-interface disable
 #
 dot1x-template 1
+#
+acl number 3001
+ rule 20 deny ip source 192.168.15.74 0.0.0.3
+ rule 25 deny ip source 192.168.15.82 0.0.0.3
+ rule 30 deny ip source 192.168.15.86 0.0.0.3
  #
 security password
  #

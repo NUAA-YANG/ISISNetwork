@@ -169,7 +169,7 @@ public class AclToIptables {
                 List<Iptables> iptablesList = turnTxtToIptables(file);
                 //存入数据库中
                 iptablesService.saveList(iptablesList);
-                writeLog.log("成功将"+file.getName()+"中转化完毕的ACL存储到数据库中");
+                writeLog.log("成功将【"+file.getName()+"】中转化完毕的ACL存储到数据库中");
             }
         }
     }

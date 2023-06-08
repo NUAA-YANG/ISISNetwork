@@ -33,15 +33,15 @@ public class CreateBash {
         Map<String, String> map = iptablesToLine.turnAllIptablesToLine(profilePath);
         map.forEach((lxdName,iptablesRule)->{
             //1. 生成防火墙配置文件
-            cmds.add("echo \""+iptablesRule+"\" >> /root/AutoNetwork/"+lxdName+"/iptables.rules;");
+            cmds.add("echo \""+iptablesRule+"\" >> /home/yzx/AutoNetwork/"+lxdName+"/iptables.rules;");
             //2. 生成保存防火墙的脚本文件
-            cmds.add("echo \""+createRcLocal()+"\" >> /root/AutoNetwork/"+lxdName+"/rc.local;");
+            cmds.add("echo \""+createRcLocal()+"\" >> /home/yzx/AutoNetwork/"+lxdName+"/rc.local;");
             //3. 为防火墙的脚本文件设置权限
-            cmds.add("chmod 777 /root/AutoNetwork/"+lxdName+"/rc.local");
+            cmds.add("chmod 777 /home/yzx/AutoNetwork/"+lxdName+"/rc.local");
             //4. 生成开机自启脚本文件
-            cmds.add("echo \""+createBash()+"\" >> /root/AutoNetwork/"+lxdName+"/startUpIptables.sh;");
+            cmds.add("echo \""+createBash()+"\" >> /home/yzx/AutoNetwork/"+lxdName+"/startUpIptables.sh;");
             try {
-                writeLog.log("成功替换容器【"+lxdName+"】中Acl配置文件");
+                writeLog.log("成功生成容器【"+lxdName+"】中Acl配置文件");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
