@@ -15,7 +15,7 @@ import java.util.List;
  * @Java-version jdk1.8
  */
 @Repository
-//接口继承实现Net接口的增删改查
+//接口继承实现Net网卡的增删改查
 public interface NetInterfacesRepository extends JpaRepository<NetInterfaces,Integer>, JpaSpecificationExecutor<NetInterfaces> {
 
     //根据容器名称删除网卡接口

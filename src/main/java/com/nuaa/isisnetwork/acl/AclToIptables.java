@@ -95,7 +95,6 @@ public class AclToIptables {
                     proList.add(null);
                 }
             }
-
             //将集合中的属性转化为实体类
             iptables.setId(0);
             iptables.setManufacturer(manufacturer);

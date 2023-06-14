@@ -38,13 +38,13 @@ public class IsisNetworkApplication {
         System.out.println("==============0.创建远程连接============");
         writeLog.log("==============0.创建远程连接============");
         LinuxConnection connection = context.getBean(LinuxConnection.class);
-        Session session = connection.getJSchSession("192.168.31.145", 22, "root", "123456");
+        Session session = connection.getJSchSession("192.168.31.104", 22, "root", "root");
         ExecLinuxCommands execLinuxCommands = context.getBean(ExecLinuxCommands.class);
 
-//        System.out.println("==============1.网管信息生成xml文件并写入数据库============");
-//        writeLog.log("==============1.网管信息生成xml文件并写入数据库============");
-//        FtlXml ftlXml = context.getBean(FtlXml.class);
-//        ftlXml.createXml(profilePath,xmlPath);
+        System.out.println("==============1.网管信息生成xml文件并写入数据库============");
+        writeLog.log("==============1.网管信息生成xml文件并写入数据库============");
+        FtlXml ftlXml = context.getBean(FtlXml.class);
+        ftlXml.createXml(profilePath,xmlPath);
 
         System.out.println("==================2.创建LXD容器================");
         writeLog.log("==================2.创建LXD容器================");

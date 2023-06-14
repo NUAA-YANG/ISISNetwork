@@ -58,5 +58,4 @@ public class NetInterfacesService {
         netInterfacesRepository.deleteNetInterfacesByLxdName(lxdName);
     }
 
-
 }
